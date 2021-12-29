@@ -1,7 +1,8 @@
-import {useState} from "react";
-import {Container, Row, Col, InputGroup, FormControl, Button} from "react-bootstrap";
+import {useState, useMemo} from "react";
+import {Container, Row, InputGroup, FormControl, Button} from "react-bootstrap";
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BoardItem from "./BoardItem";
 
 const App = () => {
     const [initialSequence, setInitialSequence] = useState("");
@@ -16,12 +17,15 @@ const App = () => {
         }
     }
 
+
     const renderRearrange = (sequence) => {
         if (sequence.length !== 9) return;
         return sequence?.split("").map((num, index) => (
-            <Col key={index} className="col-4 board font-monospace">{num}</Col>
+            <BoardItem num={num} key={index}/>
         ));
     }
+    const memoRearrange = useMemo(() => renderRearrange(sequence), [sequence]);
+
 
     const handleClick = () => {
         if (initialSequence.length === 0) {
@@ -35,9 +39,10 @@ const App = () => {
 
 
     return (
-        <Container fluid>
+        <Container>
             <Row>
                 <h1 className="text-center mt-5 mb-5 font-monospace">Sequence Assessment</h1>
+
             </Row>
 
             <Row>
@@ -51,15 +56,13 @@ const App = () => {
                         value={initialSequence}
                         maxLength={9}
                     />
-                    <Button className="bg-dark" onClick={handleClick}>Rearrange</Button>
+                    <Button style={{backgroundColor: "RGB(68, 115, 197)"}} onClick={handleClick}>Rearrange</Button>
                 </InputGroup>
             </Row>
-
-            <Row className="hundred-vh">
-                {renderRearrange(sequence)}
-                <ToastContainer/>
-            </Row>
-
+            <ToastContainer/>
+            <div className="boardContainer">
+                {memoRearrange}
+            </div>
         </Container>
     );
 }

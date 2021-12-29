@@ -1,7 +1,17 @@
-.board {
+.boardContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 5px;
+}
+
+.boardItem {
     font-weight: bold;
     font-size: 2rem;
-    text-align: center;
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
 
 .hundred-vh {
